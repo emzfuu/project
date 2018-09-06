@@ -1,0 +1,19 @@
+Vagrant.configure("2") do |config|
+  config.vm.box_download_insecure = true
+  config.vm.box = "ubuntu/xenial64"
+  
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "forwarded_port", guest: 443, host: 8443
+
+  config.vm.synced_folder "/project/perks", "/vagrantubuntu", type: "virtualbox"
+
+   config.vm.provider "virtualbox" do |vb|
+     vb.memory = "1024"
+	 vb.name = "ubuntufinal"
+   end
+
+  config.vm.provision "shell", path: "/project/perks/bootstrap.sh"
+  
+  config.vm.synced_folder "/project/www", "/var/www/html", type: "virtualbox"
+  
+end
